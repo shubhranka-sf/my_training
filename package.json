@@ -1,0 +1,14 @@
+{
+  "name": "training",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-product-service": "cd services/product-service && npm start",
+    "start-store-facade": "cd facades/store-facade && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
