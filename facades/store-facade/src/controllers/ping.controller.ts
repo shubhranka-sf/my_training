@@ -6,6 +6,7 @@ import {
   response,
   ResponseObject,
 } from '@loopback/rest';
+import { authenticate, STRATEGY } from 'loopback4-authentication';
 
 /**
  * OpenAPI response for ping()
@@ -41,6 +42,7 @@ export class PingController {
   constructor(@inject(RestBindings.Http.REQUEST) private req: Request) {}
 
   // Map to `GET /ping`
+  @authenticate(STRATEGY.BEARER)
   @get('/ping')
   @response(200, PING_RESPONSE)
   ping(): object {

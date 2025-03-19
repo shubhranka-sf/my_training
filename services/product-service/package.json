@@ -1,5 +1,5 @@
 {
-  "name": "product-service",
+  "name": "@training/product-service",
   "version": "0.0.1",
   "description": "product-service",
   "keywords": [
@@ -10,6 +10,9 @@
   "types": "dist/index.d.ts",
   "engines": {
     "node": "18 || 20 || 22"
+  },
+  "exports":{
+    "./src/models/product.model":"./dist/models/product.model.js"
   },
   "scripts": {
     "build": "lb-tsc",
@@ -32,9 +35,10 @@
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "npm run rebuild",
-    "start": "node -r source-map-support/register .",
+    "start": "nodemon -r source-map-support/register .",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
-    "rebuild": "npm run clean && npm run build"
+    "rebuild": "npm run clean && npm run build",
+    "start:watch": "tsc-watch --target es2017 --outDir ./dist --onSuccess \"node .\""
   },
   "repository": {
     "type": "git",
@@ -55,7 +59,8 @@
     "@loopback/rest": "^14.0.11",
     "@loopback/rest-explorer": "^7.0.11",
     "@loopback/service-proxy": "^7.0.11",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "@training/order-service": "^0.0.1"
   },
   "devDependencies": {
     "@loopback/build": "^11.0.10",
@@ -65,5 +70,17 @@
     "@loopback/eslint-config": "^15.0.5",
     "eslint": "^8.57.1",
     "typescript": "~5.2.2"
+  },
+  "nodemonConfig": {
+     
+    "watch": [
+      "src/"
+    ],
+    "ext": "ts",
+"exec": "npm start",
+    "ignore": [
+"dist/"
+]
+ 
   }
 }
