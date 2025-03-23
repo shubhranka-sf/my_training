@@ -1,5 +1,6 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Product} from "@training/product-service/src/models/product.model";
+import {OrderProduct} from "@training/store-facade/src/models/order-product.model";
 
 @model()
 export class Order extends Entity {
@@ -10,13 +11,7 @@ export class Order extends Entity {
   })
   id?: number;
 
-  @property({
-    type: 'number',
-    id: false,
-  })
-  totalAmount: number;
-
-  @hasMany(() => Product)
+  @hasMany(() => Product, {through: {model: () => OrderProduct}})
   products: Product[]
 
   constructor(data?: Partial<Order>) {

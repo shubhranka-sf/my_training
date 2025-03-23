@@ -9,6 +9,7 @@ export interface OrderService {
   // json file.
   getOrderById(id: number): Promise<Order>;
   getOrders(): Promise<Order[]>;
+  createOrder(): Promise<Order>;
 }
 
 export class OrderServiceProvider implements Provider<OrderService> {

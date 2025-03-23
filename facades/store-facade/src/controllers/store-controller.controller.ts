@@ -1,9 +1,9 @@
 // facades/store-facade/src/controllers/store.controller.ts
 import { inject } from '@loopback/core';
-import { get, param, response } from '@loopback/rest';
+import { get, getModelSchemaRef, param, post, requestBody, response } from '@loopback/rest';
 import { ProductService } from '../services/product-service.service';  // Import your service proxies
 import { OrderService } from '../services/order-service.service';
-import { Product } from '@training/product-service/src/models';
+import { Product } from '@training/product-service/src/models/product.model';
 // import { Order } from '@training/order-service/dist/models';
 
 
@@ -61,5 +61,28 @@ export class StoreController {
   }
 
 
-  // ... add other methods, e.g., to get all orders with product details ...
+  @post('/products')
+  @response(200, {
+    description: 'Product details with associated orders',
+  })
+  async createProduct(@requestBody({
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Product, {
+          title: 'NewProduct',
+          exclude: ['id'],
+        }),
+      },
+    },
+  })
+  product: Omit<Product, 'id'>,
+): Promise<Product> {
+  try{
+    const newProduct = await this.productService.createProduct(product.title, product.price);
+    return newProduct;
+  } catch (error) {
+    console.error("Error creating product", error);
+    throw error;
+  }
+}
 }

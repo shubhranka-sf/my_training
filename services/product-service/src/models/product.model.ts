@@ -1,5 +1,6 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Order} from "@training/order-service/src/models/order.model";
+import {OrderProduct} from "@training/store-facade/src/models/order-product.model";
 @model()
 export class Product extends Entity {
   @property({
@@ -28,7 +29,7 @@ export class Product extends Entity {
   // })
   // orderIds?: number[];
 
-  @hasMany(() => Order)
+  @hasMany(() => Order, {through: {model: () => OrderProduct}})
   orderIds?: Order[]
 
 

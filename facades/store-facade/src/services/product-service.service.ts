@@ -10,6 +10,7 @@ export interface ProductService {
   // json file.
   getProductById(id: number): Promise<Product>;
   getProducts(): Promise<Product[]>;
+  createProduct(title: string, price: number): Promise<Product>;
 }
 
 export class ProductServiceProvider implements Provider<ProductService> {

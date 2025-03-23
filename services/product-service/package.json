@@ -36,7 +36,7 @@
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "npm run rebuild",
-    "start": "nodemon -r source-map-support/register .",
+    "start": "node -r source-map-support/register .",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
     "rebuild": "npm run clean && npm run build",
     "start:watch": "tsc-watch --target es2017 --outDir ./dist --onSuccess \"node .\""
@@ -61,7 +61,8 @@
     "@loopback/rest-explorer": "^7.0.11",
     "@loopback/service-proxy": "^7.0.11",
     "tslib": "^2.0.0",
-    "@training/order-service": "^0.0.1"
+    "@training/order-service": "^0.0.1",
+    "@training/store-facade": "^0.0.1"
   },
   "devDependencies": {
     "@loopback/build": "^11.0.10",

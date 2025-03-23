@@ -1,5 +1,7 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import { getModelSchemaRef } from '@loopback/rest';
+import { Product } from '@training/product-service/src/models/product.model';
 
 const config = {
   name: 'restdb',
@@ -25,7 +27,19 @@ const config = {
           getProducts: [], // Maps to function parameters
       },
     },
-    // Add other operations (POST, PUT, DELETE) as needed
+    {
+      template: {
+        method: 'POST',
+        url: 'http://localhost:3001/products',
+        body: {
+          "title": "{title:string}",
+          "price": "{price:number}"
+        },
+      },
+      functions: {
+        createProduct: ['title', 'price'], // Maps to function parameters
+      },
+    },
   ],
 };
 

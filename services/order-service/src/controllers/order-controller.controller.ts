@@ -40,28 +40,16 @@ export class OrderControllerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: {
-            type: 'object',
-            properties: {
-              totalAmount: {type: 'number'},
-              productIds: {
-                type: 'array',
-                items: {type: 'number'},
-              },
-            },
-            required: ['totalAmount', 'productIds'],
-          },
+          schema: getModelSchemaRef(Order, {
+            title: 'NewOrder',
+            exclude: ['id'],
+          }),
         },
       },
     })
-    orderData: {totalAmount: number; productIds: number[]},
-
+    orderData: Omit<Order, 'id'>,
   ): Promise<Order> {
-    const totalAmount = await this.productDsService.getTotalValueOfProducts(orderData.productIds)
-    const order = new Order({
-      totalAmount: totalAmount
-    })
-    return this.orderRepository.create(order);
+    return this.orderRepository.create(orderData);
   }
 
   @get('/orders/count')

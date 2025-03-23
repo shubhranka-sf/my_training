@@ -1,5 +1,5 @@
 {
-  "name": "store-facade",
+  "name": "@training/store-facade",
   "version": "0.0.1",
   "description": "store-facade",
   "keywords": [
@@ -10,6 +10,9 @@
   "types": "dist/index.d.ts",
   "engines": {
     "node": "18 || 20 || 22"
+  },
+  "exports": {
+    "./src/models/order-product.model": "./dist/models/order-product.model.js"
   },
   "scripts": {
     "build": "lb-tsc",
@@ -66,6 +69,7 @@
     "loopback4-authentication": "^12.2.0",
     "loopback4-notifications": "^9.0.1",
     "loopback4-ratelimiter": "^7.0.6",
+    "nodemailer": "^6.10.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

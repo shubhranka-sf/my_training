@@ -3,7 +3,7 @@ import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loop
 import {DbDataSource} from '../datasources';
 import {Order, OrderRelations} from '../models';
 import { Product } from '@training/product-service/src/models/product.model';
-import { ProductRepository } from '@training/product-service/src/repositories';
+import { ProductRepository } from '@training/product-service/src/repositories/product.repository';
 
 export class OrderRepository extends DefaultCrudRepository<
   Order,

@@ -25,7 +25,15 @@ const config = {
           getOrders: [], // Maps to function parameters
       },
     },
-    // Add other operations (POST, PUT, DELETE) as needed
+    {
+      template: {
+        method: 'POST',
+        url: 'http://localhost:3002/orders',
+      },
+      functions: {
+        createOrder: [], // Maps to function parameters
+      },
+    },
   ],
 };
 

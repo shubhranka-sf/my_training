@@ -40,11 +40,17 @@ export class ProductControllerController {
             exclude: ['id'],
           }),
         },
-      },
+    },
     })
     product: Omit<Product, 'id'>,
   ): Promise<Product> {
-    return this.productRepository.create(product);
+    try{
+      const newProduct = await this.productRepository.create(product);
+      return newProduct;
+    } catch (error) {
+      console.error("Error creating product", error);
+      throw error;
+    }
   }
 
   @get('/products/count')
