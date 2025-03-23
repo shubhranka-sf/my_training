@@ -1,0 +1,12 @@
+{
+  "ids": {
+    "Product": 4
+  },
+  "models": {
+    "Product": {
+      "1": "{\"title\":\"My Product\",\"price\":123,\"id\":1}",
+      "2": "{\"title\":\"My Product\",\"price\":123,\"id\":2}",
+      "3": "{\"title\":\"My Product\",\"price\":123,\"id\":3}"
+    }
+  }
+}
