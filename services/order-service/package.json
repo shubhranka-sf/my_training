@@ -12,7 +12,8 @@
     "node": "18 || 20 || 22"
   },
   "exports": {
-    "./src/models/order.model": "./dist/models/order.model.js"
+    "./src/models/order.model": "./dist/models/order.model.js",
+    "./src/repositories/order.repository": "./dist/repositories/order.repository.js"  
   },
   "scripts": {
     "build": "lb-tsc",

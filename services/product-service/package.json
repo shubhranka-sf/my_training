@@ -12,7 +12,8 @@
     "node": "18 || 20 || 22"
   },
   "exports":{
-    "./src/models/product.model":"./dist/models/product.model.js"
+    "./src/models/product.model":"./dist/models/product.model.js",
+    "./src/repositories/product.repository": "./dist/repositories/product.repository.js"
   },
   "scripts": {
     "build": "lb-tsc",

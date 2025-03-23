@@ -1,16 +1,15 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
 import {DbDataSource} from '../datasources';
-import {AuthUser, AuthUserRelations} from '../models';
+import {User} from '../models';
 
 export class AuthUserRepository extends DefaultCrudRepository<
-  AuthUser,
-  typeof AuthUser.prototype.id,
-  AuthUserRelations
+  User,
+  typeof  User.prototype.id
 > {
   constructor(
     @inject('datasources.db') dataSource: DbDataSource,
   ) {
-    super(AuthUser, dataSource);
+    super(User, dataSource);
   }
 }

@@ -26,6 +26,7 @@ export class Order extends Entity {
 
 export interface OrderRelations {
   // describe navigational properties here
+  products?: Product[];
 }
 
 export type OrderWithRelations = Order & OrderRelations;
