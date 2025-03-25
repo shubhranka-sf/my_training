@@ -4,6 +4,7 @@ import { get, getModelSchemaRef, param, post, requestBody, response } from '@loo
 import { ProductService } from '../services/product-service.service';  // Import your service proxies
 import { OrderService } from '../services/order-service.service';
 import { Product } from '@training/product-service/src/models/product.model';
+import { authenticate, STRATEGY } from 'loopback4-authentication';
 // import { Order } from '@training/order-service/dist/models';
 
 
@@ -34,6 +35,7 @@ export class StoreController {
   }
 
   @get('/products')
+  @authenticate(STRATEGY.BEARER)
   @response(200, {
     description: 'Product details with associated orders',
   })

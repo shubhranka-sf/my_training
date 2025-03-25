@@ -13,12 +13,16 @@ import {MySequence} from './sequence';
 // import {AuthServiceBindings} from '@sourceloop/authentication-service';
 import { RateLimiterComponent, RateLimitSecurityBindings } from 'loopback4-ratelimiter';
 import { ChatServiceBindings, ChatServiceComponent } from '@sourceloop/chat-service';
-import { AuthenticationBindings, AuthenticationComponent, BearerTokenVerifyProvider } from 'loopback4-authentication';
-import { OtpVerifyProvider } from 'loopback4-authentication/passport-otp';
+// import { AuthenticationBindings, AuthenticationComponent } from 'loopback4-authentication';
+import { AuthenticationComponent } from 'loopback4-authentication'
 import { NotificationBindings, NotificationsComponent } from 'loopback4-notifications';
 import { NodemailerProvider } from 'loopback4-notifications/nodemailer';
 import { User } from './models';
 import {Strategies} from 'loopback4-authentication';
+import * as dotenv from 'dotenv';
+import { BearerTokenVerifyProvider } from './providers/bearer-token-provider';
+import { JWTAuthenticationComponent } from '@loopback/authentication-jwt';
+dotenv.config();
 
 export {ApplicationConfig};
 
@@ -33,9 +37,6 @@ export class StoreFacadeApplication extends BootMixin(
     
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
-    
-    this.component(AuthenticationComponent);
-
 
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({
@@ -53,21 +54,19 @@ export class StoreFacadeApplication extends BootMixin(
       name: 'memoryClient',
       type: "MemcachedStore"
     });
+      
 
-    this.bind(AuthenticationBindings.USER_MODEL).to(User as any);
+    // Add authentication component
+    this.component(AuthenticationComponent);
+    this.component(JWTAuthenticationComponent);
+    // Customize authentication verify handlers
     this.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(
       BearerTokenVerifyProvider,
     );
     
-    
-    // this.bind(ChatServiceBindings.Config).to({
-      //   useCustomSequence: false,
-      //   useSequelize: true,
-      // });
-      
-      this.projectRoot = __dirname;
-      // Customize @loopback/boot Booter Conventions here
-      this.bootOptions = {
+    this.projectRoot = __dirname;
+    // Customize @loopback/boot Booter Conventions here
+    this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
         dirs: ['controllers'],
