@@ -1,5 +1,5 @@
 {
-  "name": "user-service",
+  "name": "@training/user-service",
   "version": "0.0.1",
   "description": "services",
   "keywords": [
@@ -10,6 +10,9 @@
   "types": "dist/index.d.ts",
   "engines": {
     "node": "18 || 20 || 22"
+  },
+  "exports": {
+    "./src/models/username.model": "./dist/src/models/username.model.js"
   },
   "scripts": {
     "build": "lb-tsc",
@@ -49,21 +52,27 @@
     "!*/__tests__"
   ],
   "dependencies": {
+    "@loopback/authentication": "^11.0.12",
+    "@loopback/authentication-jwt": "^0.15.12",
     "@loopback/boot": "^7.0.11",
     "@loopback/core": "^6.1.8",
     "@loopback/repository": "^7.0.11",
     "@loopback/rest": "^14.0.11",
     "@loopback/rest-explorer": "^7.0.11",
     "@loopback/service-proxy": "^7.0.11",
+    "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2",
+    "loopback4-authentication": "^12.2.0",
+    "passport-local": "^1.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@loopback/build": "^11.0.10",
-    "source-map-support": "^0.5.21",
+    "@loopback/eslint-config": "^15.0.5",
     "@loopback/testlab": "^7.0.10",
     "@types/node": "^16.18.126",
-    "@loopback/eslint-config": "^15.0.5",
     "eslint": "^8.57.1",
+    "source-map-support": "^0.5.21",
     "typescript": "~5.2.2"
   }
 }

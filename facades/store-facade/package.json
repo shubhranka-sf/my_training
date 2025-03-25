@@ -63,6 +63,7 @@
     "@sourceloop/chat-service": "^2.0.0",
     "@training/order-service": "^0.0.1",
     "@training/product-service": "^0.0.1",
+    "@training/user-service": "^0.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "jsonwebtoken": "^9.0.2",
     "loopback-connector-rest": "^5.0.2",

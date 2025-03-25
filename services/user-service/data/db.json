@@ -1,0 +1,10 @@
+{
+  "ids": {
+    "users": 2
+  },
+  "models": {
+    "users": {
+      "1": "{\"firstName\":\"abc\",\"username\":\"abc\",\"email\":\"abc@abc.com\",\"id\":1,\"password\":\"$2a$10$BGFtp7moSQKpSlypCeVg/ex2HY8/MwrBO7QxsOFLP5uo8RhFOWzGa\"}"
+    }
+  }
+}

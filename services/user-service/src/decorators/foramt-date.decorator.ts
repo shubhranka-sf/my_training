@@ -1,6 +1,6 @@
 // user-service/src/decorators/formatted-date.decorator.ts
 import {MetadataInspector, PropertyDecoratorFactory} from '@loopback/core';
-import { Username } from '../models';
+import {User} from '../models';
 
 export const FORMATTED_DATE_KEY = 'formattedDate'; // Use a key for metadata
 
@@ -20,5 +20,5 @@ export interface FormattedDateMetadata {
 }
 export const FormattedDateMetadataKey = MetadataInspector.getClassMetadata<FormattedDateMetadata>(
     FORMATTED_DATE_KEY,
-    Username, // Replace YourModel with the actual model class
+    User, // Replace YourModel with the actual model class
 );

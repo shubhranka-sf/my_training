@@ -31,6 +31,7 @@ export class ProductControllerController {
     description: 'Product model instance',
     content: {'application/json': {schema: getModelSchemaRef(Product)}},
   })
+  
   async create(
     @requestBody({
       content: {
