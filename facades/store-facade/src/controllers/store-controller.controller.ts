@@ -5,6 +5,7 @@ import { ProductService } from '../services/product-service.service';  // Import
 import { OrderService } from '../services/order-service.service';
 import { Product } from '@training/product-service/src/models/product.model';
 import { authenticate, STRATEGY } from 'loopback4-authentication';
+import { INotification, MessageType, NotificationBindings } from 'loopback4-notifications';
 // import { Order } from '@training/order-service/dist/models';
 
 
@@ -14,6 +15,8 @@ export class StoreController {
     protected productService: ProductService,
     @inject('services.OrderService')
     protected orderService: OrderService,
+    @inject(NotificationBindings.NotificationProvider)
+    private readonly notifProvider: INotification,
   ) { }
 
   @get('/products/{id}/details')
@@ -35,7 +38,7 @@ export class StoreController {
   }
 
   @get('/products')
-  @authenticate(STRATEGY.BEARER)
+  // @authenticate(STRATEGY.BEARER)
   @response(200, {
     description: 'Product details with associated orders',
   })
@@ -55,10 +58,24 @@ export class StoreController {
         // orders: ordersArrays[index], // Assign the corresponding orders array
       }));
 
-
+      // this.notifProvider.publish({
+      //   subject: 'Product Details',
+      //   body: 'You have received product details',
+      //   receiver: {
+      //     to: [{
+      //       id: 'shubhranka.varma@sourcefuse.com',
+      //       name: 'Shubhranka Varma'
+      //     }]
+      //   },
+      //   type: MessageType.Email,
+      //   sentDate: new Date(),
+      //   options: {
+      //   }
+      // });
       return productsWithOrders;
     } catch (error) {
       //handle error
+      console.error(error);
     }
   }
 
