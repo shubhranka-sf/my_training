@@ -1,7 +1,10 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Permissions} from 'loopback4-authorization';
+import {User} from './user.model';
+import {UserRole} from './user-role.model';
 
 @model()
-export class Role extends Entity {
+export class Role extends Entity implements Permissions<string> {
   @property({
     type: 'number',
     id: true,
@@ -13,12 +16,19 @@ export class Role extends Entity {
     type: 'string',
     required: true,
     unique: true,
-    jsonSchema: {
-      enum: Object.values(Role)
-    }
   })
-  name: string;
+  role: string;
 
+  @property({
+    type: 'array',
+    itemType: 'string',
+  })
+  permissions: string[];
+
+  @hasMany(() => User, {
+    through: {model: () => UserRole, keyFrom: 'roleId', keyTo: 'userId'},
+  })
+  users: User[];
 
   constructor(data?: Partial<Role>) {
     super(data);

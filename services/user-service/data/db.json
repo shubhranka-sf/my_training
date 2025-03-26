@@ -1,10 +1,18 @@
 {
   "ids": {
-    "users": 2
+    "Role": 2,
+    "users": 2,
+    "UserRole": 2
   },
   "models": {
+    "Role": {
+      "1": "{\"role\":\"ADMIN\",\"permissions\":[\"create_product\"],\"id\":1}"
+    },
     "users": {
-      "1": "{\"firstName\":\"abc\",\"username\":\"abc\",\"email\":\"abc@abc.com\",\"id\":1,\"password\":\"$2a$10$BGFtp7moSQKpSlypCeVg/ex2HY8/MwrBO7QxsOFLP5uo8RhFOWzGa\"}"
+      "1": "{\"firstName\":\"abc\",\"lastName\":\"abc\",\"middleName\":\"acb\",\"username\":\"abc\",\"email\":\"abc@abc.com\",\"id\":1,\"password\":\"$2a$10$GSQaB3qsugAE643bIf08k.drc3o2doaKsxsxRw68Rrbn47aMACBzW\"}"
+    },
+    "UserRole": {
+      "1": "{\"roleId\":1,\"userId\":1,\"id\":1}"
     }
   }
 }

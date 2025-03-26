@@ -22,6 +22,7 @@ import {Strategies} from 'loopback4-authentication';
 import * as dotenv from 'dotenv';
 import { BearerTokenVerifyProvider } from './providers/bearer-token-provider';
 import { JWTAuthenticationComponent } from '@loopback/authentication-jwt';
+import { AuthorizationBindings, AuthorizationComponent } from 'loopback4-authorization';
 dotenv.config();
 
 export {ApplicationConfig};
@@ -63,6 +64,11 @@ export class StoreFacadeApplication extends BootMixin(
     this.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(
       BearerTokenVerifyProvider,
     );
+
+    this.bind(AuthorizationBindings.CONFIG).to({
+      allowAlwaysPaths: ['/explorer'],
+    });
+    this.component(AuthorizationComponent);
     
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

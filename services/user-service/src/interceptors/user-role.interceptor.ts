@@ -46,10 +46,9 @@ export class UserRoleInterceptor implements Provider<Interceptor> {
       if (methodName === 'createUser') {
         const args = invocationCtx.args;
         const data = args[0];
+        console.log(data)
         if (
-          !data.roleIds ||
-          !Array.isArray(data.roleIds) ||
-          data.roleIds.length === 0
+          !data.role
         ) {
           throw new HttpErrors.BadRequest(
             'User creation requires at least one role.',

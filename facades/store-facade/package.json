@@ -70,6 +70,7 @@
     "jsonwebtoken": "^9.0.2",
     "loopback-connector-rest": "^5.0.2",
     "loopback4-authentication": "^12.2.0",
+    "loopback4-authorization": "^7.0.3",
     "loopback4-notifications": "^9.0.1",
     "loopback4-ratelimiter": "^7.0.6",
     "nodemailer": "^6.10.0",

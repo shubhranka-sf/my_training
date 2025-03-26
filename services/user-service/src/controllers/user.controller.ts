@@ -8,10 +8,9 @@ import {
   Credentials,
   MyUserService,
   TokenServiceBindings,
-  UserRepository,
   UserServiceBindings,
 } from '@loopback/authentication-jwt';
-import {inject} from '@loopback/core';
+import {inject, intercept} from '@loopback/core';
 import {model, property, repository} from '@loopback/repository';
 import {
   get,
@@ -24,9 +23,11 @@ import {
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash, compareSync} from 'bcryptjs';
 import _ from 'lodash';
-import { MyUserRepository } from '../repositories';
-import { User } from '../models';
+import { UserRepository, UserRoleRepository } from '../repositories';
+import { Role, User } from '../models';
 import * as jwt from 'jsonwebtoken';
+import { RoleRepository } from '../repositories';
+import { UserRoleInterceptor } from '../interceptors';
 
 @model()
 export class NewUserRequest extends User {
@@ -35,6 +36,13 @@ export class NewUserRequest extends User {
     required: true,
   })
   password: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  role: string;
+  
 }
 
 const CredentialsSchema: SchemaObject = {
@@ -69,9 +77,13 @@ export class UserController {
     @inject(SecurityBindings.USER, {optional: true})
     public user: UserProfile,
     @repository(UserRepository) protected userRepository: UserRepository,
+    @repository(RoleRepository) protected roleRepository: RoleRepository,
 
-    @repository(MyUserRepository)
-    public myUserRepository : MyUserRepository,
+    @repository(UserRepository)
+    public myUserRepository : UserRepository,
+
+    @repository(UserRoleRepository)
+    public userRoleRepository : UserRoleRepository,
   ) {}
 
   @post('/users/login', {
@@ -151,6 +163,7 @@ export class UserController {
     return currentUserProfile[securityId];
   }
 
+  @intercept(UserRoleInterceptor.BINDING_KEY)
   @post('/signup', {
     responses: {
       '200': {
@@ -171,19 +184,69 @@ export class UserController {
         'application/json': {
           schema: getModelSchemaRef(NewUserRequest, {
             title: 'NewUser',
+            exclude: ['id'],
           }),
         },
       },
     })
-    newUserRequest: NewUserRequest,
+    newUserRequest: Omit<NewUserRequest, 'id'>,
   ): Promise<User> {
     const password = await hash(newUserRequest.password, await genSalt(10));
-    const savedUser = await this.myUserRepository.create(
-      _.omit(newUserRequest, 'password'),
-    );
+    
+    // Find the role first
+    const role = await this.roleRepository.findOne({
+      where: {role: newUserRequest.role}
+    });
 
-    await this.myUserRepository.updateById(savedUser.id, {password})
+    if (!role) {
+      throw new HttpErrors.NotFound(`Role ${newUserRequest.role} not found`);
+    }
+
+    // Create user without role property
+    const userData = _.omit(newUserRequest, ['password', 'role']);
+    const savedUser = await this.userRepository.create(userData);
+    
+    // Set the password
+    await this.userRepository.updateById(savedUser.id, {password});
+
+    // Create the user-role relationship
+    await this.userRoleRepository.create({
+      userId: savedUser.id,
+      roleId: role.id
+    });
+
+    console.log('User created successfully', savedUser);
 
     return savedUser;
+  }
+
+  @post('/roles', {
+    responses: {
+      '200': {
+        description: 'Role',
+        content: {
+          'application/json': {
+            schema: {
+              'x-ts-type': Role,
+            },
+          },
+        },
+      },
+    },
+  })
+  async createRole(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Role, {
+            title: 'NewRole',
+            exclude: ['id'],
+          }),
+        },
+      },
+    })
+    role: Omit<Role, 'id'>,
+  ): Promise<Role> {
+    return this.roleRepository.create(role);
   }
 }
